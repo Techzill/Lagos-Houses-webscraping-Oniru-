@@ -1,0 +1,40 @@
+
+pacman::p_load(
+  # data wrangling
+  tidyverse, stringr,
+  #web scraping
+  rvest, XML
+)
+
+# Indicate the website URL
+url <- "https://cwlagos.com/property-location/ikoyi/"
+# read the url 
+read_url <- read_html(url)
+
+# read the prices of the houses
+price <- read_url %>% html_elements(".property-price") %>% html_text2()
+price
+#read the price of a particular house
+particular_house <- read_url %>% html_element(".status-property-label") %>% html_text2 ()
+particular_house
+
+# the website address
+url <- "https://cwlagos.com/property-location/ikoyi/"
+# read the url 
+scrap <- read_html(url) %>% print()
+ # scrap the type of apartment
+House_type <- scrap %>% html_elements(".property-title") %>% html_text2()
+House_type
+#scraping the price of the apartment 
+price <- scrap %>% html_elements(".property-price") %>% html_text2()
+price
+# check for the availability
+availability <-  scrap %>% html_elements(".status-property-label") %>% html_text2()
+availability
+# input observation 19 as NA
+price[19] <- NA
+# input observation 19 as NA
+availability[19] <- NA
+#Convert to a tibble
+tibble(House_type, price,availability)
+
